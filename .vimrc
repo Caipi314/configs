@@ -1,23 +1,43 @@
-" " Plugins will be downloaded under the specified directory.
-" call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
-" 
-" " Declare the list of plugins.
-" Plug 'joshdick/onedark.vim'
-" Plug 'sbdchd/neoformat'
-" 
-" " List ends here. Plugins become visible to Vim after this call.
-" call plug#end()
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" Track the engine.
+Plugin 'SirVer/ultisnips'
+
+" Snippets are separated from the engine. Add this if you want them:
+Plugin 'honza/vim-snippets'
+Plugin 'shinglyu/vim-codespell'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
 
 
-" Theme settings
-" let g:airline_theme='onedark'
-" colorscheme onedark
-" set background=dark " for the dark version
-" syntax enable
-" colorscheme monokai
+
+
 syntax on
 colorscheme sublimemonokai
-set termguicolors
+" set termguicolors
 set t_Co=256
 let g:sublimemonokai_term_italic = 1
 " Languages
@@ -25,17 +45,35 @@ let java_comment_strings=1
 let java_highlight_functions=1
 let java_highlight_java_lang_ids=1
 
-" Prettier settings
-autocmd BufWritePre *.js Neoformat
+" Snippits settings
+
+" Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
+" - https://github.com/Valloric/YouCompleteMe
+" - https://github.com/nvim-lua/completion-nvim
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
 
 " Non plugin settings:
 set whichwrap=<,>,h,l
 
+" Save folds
+augroup remember_folds
+  autocmd!
+  autocmd BufWinLeave *.* mkview
+  autocmd BufWinEnter *.* silent! loadview
+augroup END
+
 " ":W" to format current file
 :command W !prettier % --write
-:command Ww w | !prettier % --write
-
+:command Ww w | W
+:command R !sh run.sh
+:command Setrun !echo 'java '% > run.sh
+" set autoread
 
 set tabstop=2
 set softtabstop=2
@@ -45,6 +83,11 @@ set shiftwidth=2
 let &t_SI = "\e[5 q"
 let &t_EI = "\e[2 q"
 
-" turn hybrid line numbers on
-:set number relativenumber
-:set nu rnu
+set number
+set spell
+
+" move lines
+nnoremap <C-k> :m-2<CR>
+nnoremap <C-j> :m+<CR>
+inoremap <C-k> <Esc>:m-2<CR>
+inoremap <C-j> <Esc>:m+<CR>
