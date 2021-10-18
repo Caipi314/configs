@@ -1,0 +1,41 @@
+snippet ccc "basic, reusable template"
+import java.util.Scanner;
+import java.lang.Math;
+
+class Main {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		$0
+	}
+}
+endsnippet
+
+snippet c "class (with pvsm)" 
+class ${1:name} {
+	public static void main(String[] args){
+		$0
+	}
+}
+endsnippet
+
+snippet pc "public class (with constructor)"
+public class ${1:className} {
+	public $1(${2:params}){
+		$0
+	}
+}
+endsnippet
+
+snippet psvm "public static void main string args"
+public static void main(String[] args){
+	$0
+}
+endsnippet
+
+snippet outln "System.out.println"
+System.out.println(${1:object});
+endsnippet
+
+snippet outf "System.out.printf"
+System.out.printf("${1:object}\n", ${2:vars});
+endsnippet
