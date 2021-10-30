@@ -92,7 +92,7 @@ export NVM_DIR="$HOME/.nvm"
 # Custom Aliases:
 alias nordvpn="sudo nordvpn"
 alias reload="source ~/.zshrc"
-alias files="nautilus"
+alias files="nautilus -w"
 
 source $ZSH/oh-my-zsh.sh
 
