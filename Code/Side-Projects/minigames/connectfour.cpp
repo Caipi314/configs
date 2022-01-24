@@ -121,22 +121,14 @@ public:
 				move.eval = move.evaluate(depth - 1, false);
 
 				if (move.eval >= maxEval) {
-					// if (initial) {
-					// 	move.roughPrint();
-					// 	cout << "is better than:\n";
-					// 	bestMove.roughPrint();
-					// }
 					maxEval = move.eval;
 					bestMove = move;
 				}
 
 			}
 
-			if (initial) {
-				cout << "Best move:\n";
-				bestMove.roughPrint(bestMove.eval);
+			if (initial)
 				makeMove(bestMove.lastColPlayed);
-			}
 			return maxEval;
 		}
 		else {
@@ -147,35 +139,20 @@ public:
 				move.eval = move.evaluate(depth - 1, false);
 
 				if (move.eval <= minEval) {
-					// if (initial) {
-					// 	move.roughPrint();
-					// 	cout << "is better than:\n";
-					// 	bestMove.roughPrint();
-					// }
 					minEval = move.eval;
 					bestMove = move;
 				};
 
 			}
 
-			if (initial) {
-				cout << "Best move:\n";
-				bestMove.roughPrint(bestMove.eval);
+			if (initial)
 				makeMove(bestMove.lastColPlayed);
-			}
 			return minEval;
 		}
 	}
 	void computerTurn() {
-		// vector<Position> nextMoves = getNextMoves();
-
-		int eval = evaluate(5, true);
+		int eval = evaluate(7, true);
 		cout << "Current eval: " << eval << endl;
-		// makeMove(getNextMoves().front().lastColPlayed);
-		// for (Position nextMove : nextMoves) {
-		// 	nextMove.printBoard();
-		// }
-		// int eval = eval()
 	}
 
 	void makeMove(int col) {
@@ -219,7 +196,7 @@ public:
 				else if (connectedPlayer != -2) {
 					// // if we go from a space to a chain
 					if (connected > 1)
-						score += connectedPlayer * connected;
+						score += connectedPlayer * connected * connected;
 
 					connected = 1;
 				}
@@ -227,14 +204,15 @@ public:
 			}
 
 			if (connected > 1 && connectedPlayer != -2)
-				score += connectedPlayer * connected;
+				score += connectedPlayer * connected * connected;
 
 		}
 
 		// horizontal wins
 		for (int row = 0; row < ROWS; row++) {
-			int connected = 0;
-			int connectedPlayer = -2;
+			int connected = 1; // NO IDEA WHY THIS
+			int connectedPlayer = -2; // neither a space nor a player code
+			// int spacesBefore = 0;
 			for (int col = 0; col < COLS; col++) {
 				// if part of a chain, increase
 				if (board[row][col] == connectedPlayer) {
@@ -246,10 +224,7 @@ public:
 				else if (connectedPlayer != -2) {
 					// // if we go from a space to a chain
 					if (connected > 1)
-						score += connectedPlayer * connected;
-
-					cout << "chain ends on " << row << col;
-					cout << "horiz chain of " << connected << " by " << connectedPlayer << endl;
+						score += connectedPlayer * connected * connected;
 
 					connected = 1;
 				}
@@ -257,7 +232,8 @@ public:
 			}
 
 			if (connected > 1 && connectedPlayer != -2)
-				score += connectedPlayer * connected;
+				score += connectedPlayer * connected * connected;
+
 		}
 
 
@@ -278,7 +254,7 @@ public:
 				// if not part of a chain, reset the chain
 				else {
 					if (connected > 1)
-						score += connectedPlayer * connected;
+						score += connectedPlayer * connected * connected;
 
 					connectedPlayer = boxVal;
 					connected = 1;
@@ -287,7 +263,7 @@ public:
 			}
 
 			if (connected > 1 && connectedPlayer != -2)
-				score += connectedPlayer * connected;
+				score += connectedPlayer * connected * connected;
 		}
 
 		// backward diagonals
@@ -307,7 +283,7 @@ public:
 				// if not part of a chain, reset the chain
 				else {
 					if (connected > 1)
-						score += connectedPlayer * connected;
+						score += connectedPlayer * connected * connected;
 
 					connectedPlayer = boxVal;
 					connected = 1;
@@ -316,7 +292,7 @@ public:
 			}
 
 			if (connected > 1 && connectedPlayer != -2)
-				score += connectedPlayer * connected;
+				score += connectedPlayer * connected * connected;
 		}
 
 		return score;
@@ -333,12 +309,11 @@ int main() {
 			game.humanTurn();
 		}
 		else
-			// game.computerTurn();
-			game.humanTurn();
+			game.computerTurn();
+		// game.humanTurn();
 		game.printBoard();
 
 		int eval = game.checkWin();
-		cout << "Static eval: " << eval << endl;
 		if (abs(eval) == INFINITY) break;
 	}
 	cout << "Winner: " << playerCodeToChar(game.checkWin()) << endl;
