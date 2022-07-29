@@ -2,15 +2,14 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/cai/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
+
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-# ZSH_THEME="robbyrussell"
-ZSH_THEME="awesomepanda"
-# ZSH_THEME=random
+ZSH_THEME="spaceship"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -25,17 +24,16 @@ ZSH_THEME="awesomepanda"
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# zstyle ':omz:update' frequency 13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
-DISABLE_MAGIC_FUNCTIONS="true"
+# DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -73,26 +71,6 @@ DISABLE_MAGIC_FUNCTIONS="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-	git
-	zsh-autosuggestions
-	zsh-syntax-highlighting
-)
-
-
-
-
-
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-
-# Custom Aliases:
-alias nordvpn="sudo nordvpn"
-alias reload="source ~/.zshrc"
-alias files="nautilus -w"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -117,8 +95,58 @@ source $ZSH/oh-my-zsh.sh
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
+zstyle ':autocomplete:*' min-delay 0.1  # float
+
+skip_global_compinit=1
+
+plugins=(
+	git
+	zsh-syntax-highlighting
+	zsh-autosuggestions
+)
+
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+# Custom Aliases:
+alias nordvpn="sudo nordvpn"
+alias reload="source ~/.zshrc"
+alias files="nautilus"
+alias j="joplin"
+alias logs="docker compose logs --tail=50 -f"
+
+cpath="~/Code/Arcturus/certs/gieteco"
+scpath="~/Code/Arcturus/certs/arcnet"
+cdpath="~/Code/Arcturus/certs/cd"
+
+alias gietecoConnect="openssl s_client -connect 10.0.0.189:107 -key $cpath/Arcnet-Gieteco-client.key -cert $cpath/Arcnet-Gieteco-client\ \(1\).crt -CAfile $cpath/Arcnet-Gieteco-ca-chain\ \(1\).pem -quiet"
+alias scConnect="openssl s_client -connect 10.0.0.36:107 -key $scpath/Arcnet-client-unencrypted.key -cert $scpath/Arcnet-client.crt -CAfile $scpath/Arcnet-intermediate-ca-chain.pem -quiet"
+alias cdConnect="openssl s_client -connect 10.0.0.36:107 -key $cdpath/Arcnet-CleverDevices-client.key -cert $cdpath/Arcnet-CleverDevices-client.pem -CAfile $cdpath/Arcnet-CleverDevices-ca-chain.pem -quiet"
+alias pythonSM="cd ~/Code/Arcturus/systemmanager; source sm/bin/activate; python3 system_manager.py"
+
+# alias python3="python3.8"
+
+source ~/.oh-my-zsh/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+# source /home/caisiegel/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# ip addr
+export IPADDR=ucls1012a-sc.local
+export LAPTOP=cais-mac.local
+
+
+backend="~/Code/Arcturus/SMNextGen/backend"
+alias mocha="NODE_ENV=test $backend/node_modules/mocha/bin/mocha --recursive --bail"
+
+
+# Waypoint --------
+
+alias wpdevconnect="ssh waypoint@wpdemo.waypointgolf.com -p 41588 -i ~/Code/Waypoint/warrens-keys/id_rsa_unencrypted"
+
 
